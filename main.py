@@ -1,7 +1,9 @@
 import os
 import logging
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from routes import portfolio, lawyer
 
@@ -41,6 +43,21 @@ app.include_router(portfolio.router, tags=["Portfolio Chatbot"])
 app.include_router(portfolio.router, prefix="/portfolio", tags=["Portfolio Chatbot"])
 app.include_router(lawyer.router, prefix="/lawyer", tags=["Legacy Route"])
 
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    body = await request.body()
+    logger.error(
+        "422 on %s %s | body: %s | errors: %s",
+        request.method, request.url.path,
+        body.decode("utf-8", errors="replace"),
+        exc.errors(),
+    )
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors(), "body_received": body.decode("utf-8", errors="replace")},
+    )
+
 @app.api_route("/health", methods=["GET", "HEAD"])
 async def health():
     return {"status": "ok", "model": GROQ_MODEL}
@@ -50,7 +67,7 @@ async def health():
 async def root():
     return {
         "status": "ok",
-        "service": "Usman Portfolio Chatbot Backend",
+        "service": "Portfolio Chatbot Backend",
         "model": GROQ_MODEL,
         "endpoints": ["/chat", "/ask", "/health"],
     }

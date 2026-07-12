@@ -10,6 +10,7 @@ logger = logging.getLogger("portfolio-chatbot")
 
 router = APIRouter()
 
+
 RATE_LIMIT_PER_MIN = int(os.getenv("RATE_LIMIT_PER_MIN", "15"))
 _request_log: dict[str, deque] = defaultdict(deque)
 

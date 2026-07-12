@@ -13,7 +13,7 @@ GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
 
 
-def get_response(prompt_or_messages: str | list[dict], model: str | None = None, temperature: float = 0.4, max_tokens: int = 400) -> str:
+def get_response(prompt_or_messages: str | list[dict], model: str | None = None, temperature: float = 0.3, max_tokens: int = 600) -> str:
     if not client:
         raise RuntimeError("GROQ_API_KEY is not configured.")
 

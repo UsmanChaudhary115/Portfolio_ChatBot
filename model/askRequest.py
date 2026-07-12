@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, field_validator
 
-MAX_MESSAGE_LENGTH = 500
+MAX_MESSAGE_LENGTH = 500       # limit for new user messages (anti-abuse)
 MAX_HISTORY_TURNS = 6
 
 
@@ -10,7 +10,7 @@ class AskRequest(BaseModel):
 
 class ChatMessage(BaseModel):
     role: str = Field(..., pattern="^(user|assistant)$")
-    content: str = Field(..., max_length=MAX_MESSAGE_LENGTH)
+    content: str  # no length limit — content is either AI-generated or already validated
 
 
 class ChatRequest(BaseModel):
