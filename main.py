@@ -41,14 +41,13 @@ app.include_router(portfolio.router, tags=["Portfolio Chatbot"])
 app.include_router(portfolio.router, prefix="/portfolio", tags=["Portfolio Chatbot"])
 app.include_router(lawyer.router, prefix="/lawyer", tags=["Legacy Route"])
 
-
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 async def health():
     return {"status": "ok", "model": GROQ_MODEL}
 
 
-@app.get("/")
-def root():
+@app.api_route("/", methods=["GET", "HEAD"])
+async def root():
     return {
         "status": "ok",
         "service": "Usman Portfolio Chatbot Backend",
