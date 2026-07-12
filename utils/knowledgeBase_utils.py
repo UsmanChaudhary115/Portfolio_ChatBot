@@ -35,7 +35,20 @@ except Exception:
 
 
 def _tokenize(text: str) -> list[str]:
-    return re.findall(r"[a-z0-9]+", text.lower())
+    tokens = re.findall(r"[a-z0-9]+", text.lower())
+    normalized_tokens = []
+    for token in tokens:
+        if token in {"internships", "internship"}:
+            normalized_tokens.append("intern")
+        elif token == "projects":
+            normalized_tokens.append("project")
+        elif token == "experiences":
+            normalized_tokens.append("experience")
+        elif token == "jobs":
+            normalized_tokens.append("job")
+        else:
+            normalized_tokens.append(token)
+    return normalized_tokens
 
 
 def _compute_chunk_relevance_score(query_tokens: set[str], query_text: str, chunk: dict) -> float:
@@ -53,6 +66,17 @@ def _compute_chunk_relevance_score(query_tokens: set[str], query_text: str, chun
     title_tokens = set(_tokenize(title))
     content_tokens = set(_tokenize(content))
     id_tokens = set(_tokenize(cid))
+
+    chunk_tokens = title_tokens | content_tokens | id_tokens
+    experience_intent_keywords = {"experience", "intern", "job", "jobs", "work", "worked", "role", "roles", "employment"}
+    project_intent_keywords = {"project", "projects", "built", "developed", "website", "app", "platform", "system"}
+    experience_chunk_keywords = {"intern", "experience", "worked", "work", "role", "roles", "employment", "job", "duration", "summary"}
+    project_chunk_keywords = {"project", "built", "developed", "website", "app", "platform", "system", "featured"}
+
+    query_experience_intent = bool(query_tokens.intersection(experience_intent_keywords))
+    query_project_intent = bool(query_tokens.intersection(project_intent_keywords))
+    chunk_is_experience = bool(chunk_tokens.intersection(experience_chunk_keywords)) or cid.endswith("_experience")
+    chunk_is_project = bool(chunk_tokens.intersection(project_chunk_keywords)) or chunk.get("type") == "item"
 
     score = 0.0
 
@@ -73,6 +97,17 @@ def _compute_chunk_relevance_score(query_tokens: set[str], query_text: str, chun
     content_overlap = query_tokens.intersection(content_tokens)
     score += len(content_overlap) * 1.5
 
+    # Experience questions should prioritize jobs and internships over projects.
+    if query_experience_intent:
+        if chunk_is_experience:
+            score += 8.0
+        elif chunk_is_project and not query_project_intent:
+            score -= 2.5
+
+    # Project-specific intent should still surface project chunks, but below experience items when both are relevant.
+    if query_project_intent and chunk_is_project:
+        score += 3.0
+
     # Specific recruiter intent category boosts (excluding generic words like 'about')
     contact_keywords = {"contact", "email", "phone", "reach", "linkedin", "github", "location", "who", "usman", "bio"}
     if query_tokens.intersection(contact_keywords) and cid == "1_profile":
@@ -87,6 +122,24 @@ def _compute_chunk_relevance_score(query_tokens: set[str], query_text: str, chun
         score += 5.0
 
     return score
+
+
+def _is_experience_chunk(chunk: dict) -> bool:
+    title = chunk.get("title", "")
+    cid = chunk.get("id", "")
+    title_tokens = set(_tokenize(title))
+    id_tokens = set(_tokenize(cid))
+    experience_chunk_keywords = {"intern", "experience", "worked", "work", "role", "roles", "employment", "job"}
+    return bool(title_tokens.intersection(experience_chunk_keywords) or id_tokens.intersection(experience_chunk_keywords) or cid.endswith("_experience"))
+
+
+def _is_project_chunk(chunk: dict) -> bool:
+    title = chunk.get("title", "")
+    content = chunk.get("content", "")
+    cid = chunk.get("id", "")
+    chunk_tokens = set(_tokenize(title)) | set(_tokenize(content)) | set(_tokenize(cid))
+    project_chunk_keywords = {"project", "built", "developed", "website", "app", "platform", "system", "featured"}
+    return bool(chunk_tokens.intersection(project_chunk_keywords)) or chunk.get("type") == "item"
 
 
 
@@ -127,13 +180,24 @@ def get_relevant_knowledge(
         selected_chunks = [c for c in chunks if c.get("id") in selected_ids]
     else:
         query_tokens = set(_tokenize(search_query))
+        query_experience_intent = bool(query_tokens.intersection({"experience", "intern", "job", "jobs", "work", "worked", "role", "roles", "employment"}))
+        query_project_intent = bool(query_tokens.intersection({"project", "projects", "built", "developed", "website", "app", "platform", "system"}))
         scored_chunks = [
             (c, _compute_chunk_relevance_score(query_tokens, search_query, c))
             for c in chunks
         ]
         # Sort by score descending and filter by threshold
         scored_chunks.sort(key=lambda x: x[1], reverse=True)
-        relevant = [c for c, score in scored_chunks if score >= min_score_threshold][:k]
+
+        if query_experience_intent and not query_project_intent:
+            relevant = [c for c, score in scored_chunks if score >= min_score_threshold and _is_experience_chunk(c)][:k]
+        else:
+            relevant = [c for c, score in scored_chunks if score >= min_score_threshold][:k]
+
+        if query_experience_intent and query_project_intent and len(relevant) < k:
+            project_support = [c for c, score in scored_chunks if score >= min_score_threshold and _is_project_chunk(c) and c not in relevant]
+            relevant.extend(project_support[: max(0, k - len(relevant))])
+
         selected_chunks = relevant
 
     # 3. Safety Fallback: If no chunk crossed the threshold, retrieve top 2 closest or Profile
@@ -161,4 +225,4 @@ def get_full_knowledge_base() -> str:
         if content:
             sections.append(f"### {title}\n{content}")
     return "\n\n".join(sections)
-
+
