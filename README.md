@@ -171,7 +171,35 @@ async function askPortfolioBot(userMessage, conversationHistory = []) {
 
 ---
 
+## ☁️ Deploy to Render (Free Cloud Hosting)
+
+You can deploy this API to [Render](https://render.com) for free in less than 3 minutes:
+
+### Method 1: Using the Render Dashboard (Web Service)
+1. Push your code to a **GitHub repository**.
+2. Log in to [render.com](https://render.com) and click **New +** → **Web Service**.
+3. Connect your GitHub repository.
+4. Configure the following settings:
+   - **Name:** `portfolio-chatbot-api`
+   - **Environment:** `Python 3`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. Under **Environment Variables**, add:
+   - `GROQ_API_KEY`: *(Your Groq API key starting with `gsk_`)*
+   - `ALLOWED_ORIGINS`: `*` *(or your frontend URL)*
+   - `GROQ_MODEL`: `llama-3.1-8b-instant`
+   - `PYTHON_VERSION`: `3.11.9`
+6. Click **Create Web Service**. Render will build and deploy your live API!
+
+### Method 2: Using Blueprint (`render.yaml`)
+A ready-to-use [render.yaml](file:///c:/Users/usman/Desktop/Usman%20ChatBot/render.yaml) is included in this repo.
+1. In Render Dashboard, click **New +** → **Blueprint**.
+2. Connect your repo and enter your `GROQ_API_KEY` when prompted.
+
+---
+
 ## 🐳 Docker Deployment
+
 
 A clean `Dockerfile` is included. To build and run containerized:
 
