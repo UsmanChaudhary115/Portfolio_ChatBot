@@ -9,7 +9,7 @@ langchain-community==0.3.27
 faiss-cpu==1.12.0
 
 # NLP models
-torch --index-url https://download.pytorch.org/whl/cpu
+
 sentence-transformers==3.1.1
 
 httpx==0.27.2

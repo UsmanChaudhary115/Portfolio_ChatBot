@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: portfolio-chatbot-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: RATE_LIMIT_PER_MIN
+        value: 15
+      - key: GROQ_API_KEY
+        sync: false
+    healthCheckPath: /health
+    disk: null
