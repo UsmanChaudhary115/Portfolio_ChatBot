@@ -1,0 +1,98 @@
+[
+  {
+    "id": "1_profile",
+    "type": "section",
+    "title": "1. Profile",
+    "content": "- **Name:** Muhammad Usman Ali\n- **Title:** Full Stack Developer\n- **Bio:** Full-stack engineer building scalable web systems and backend architectures, with applied experience in AI/ML-driven solutions.\n- **Location:** Lahore-Pakistan\n- **Email:** usmanalim015@gmail.com\n- **Phone:** +923266180749\n- **GitHub:** https://github.com/UsmanChaudhary115\n- **LinkedIn:** https://www.linkedin.com/in/usmanchaudhry6180/\n- **Portfolio:** https://usmanmazhar.dev"
+  },
+  {
+    "id": "2_education",
+    "type": "section",
+    "title": "2. Education",
+    "content": "- **Degree:** BS Software Engineering, Punjab University College of Information Technology (PUCIT), Lahore\n- **CGPA:** 3.4\n- **Status:** Fresh graduate, actively seeking entry-level / Associate Software Engineer roles"
+  },
+  {
+    "id": "3_tech_stack",
+    "type": "section",
+    "title": "3. Tech Stack",
+    "content": "- **Databases:** Vector Databases (intermediate), PostgreSQL (advanced), MongoDB (intermediate), SQL Server (advanced)\n- **Frameworks:** React (advanced), React Native (advanced), Blazor (advanced), Bootstrap (advanced), FastAPI (advanced), ASP.NET (advanced)\n- **Languages:** HTML/CSS/JavaScript (advanced), Python (advanced), C# (advanced), C++ (advanced), TypeScript (advanced)\n- **Tools:** LangChain (intermediate), Large Language Models (LLMs) (advanced), Git (advanced), Docker (intermediate), AWS (intermediate)"
+  },
+  {
+    "id": "software_engineer_intern_folio3_pakistan",
+    "type": "item",
+    "title": "Software Engineer Intern — Folio3 Pakistan",
+    "content": "- **Duration:** 2025-06-10 to 2025-08-10\n- **Skills used:** REACT-NATIVE, FastApi, Deep Learnig, Computer Vision, AWS, Cloud, Background services\n- **Summary:** Worked as a software engineer intern in Folio3 where I contributed to scalable backend services and AI-driven solutions, focusing on performance, maintainability, and industry-level deployment practices.\n- **Details:** As a Software Engineer Intern at Folio3 Pakistan, I contributed to the development of SnapVault, a cutting-edge mobile application designed for private and seamless image distribution. My primary focus was on backend development, where I leveraged FastAPI to build secure and efficient APIs, manage data, and implement advanced logic, including computer vision techniques crucial for ensuring user privacy and optimizing image handling. I also worked on the frontend using React Native, enhancing the user experience and ensuring a smooth and intuitive interface for secure image sharing. Additionally, I gained hands-on experience with deployment on AWS EC2, ensuring scalability and reliability of the application."
+  },
+  {
+    "id": "ai_llms_intern_binarytech",
+    "type": "item",
+    "title": "AI & LLMs Intern — BinaryTech",
+    "content": "- **Duration:** 2025-06-12 to 2025-08-22\n- **Skills used:** AI, LLM, RAGs, Vector DB, Prompting\n- **Summary:** Worked on research and development in Artificial Intelligence and Large Language Models (LLMs).\nAssisted in building and fine-tuning model workflows for intelligent automation and text understanding.\n- **Details:** At Binary Teck I Worked on research and development in Artificial Intelligence and Large Language\nModels (LLMs). Assisted in building and fine-tuning model workflows for intelligent\nautomation and text understanding. Explored the practical applications of Generative AI\nand language-based systems within real-world projects. Gained strong hands-on\nexperience in prompt engineering, model evaluation, and data pipeline optimization."
+  },
+  {
+    "id": "5_certifications",
+    "type": "section",
+    "title": "5. Certifications",
+    "content": "- **Foundational C# with Microsoft** — freeCodeCamp (2025-04-02) — Skills: C#\n- **Blazor Crash Course for Absolute Beginners** — Udemy (2025-06-08) — Skills: Blazor, C#\n- **LangChain for LLM Application Development** — DeepLearning.AI (2025-08-25) — Skills: LangChain, ChatBot, AI\n- **AI For Everyone** — DeepLearning.AI (2025-08-26) — Skills: Machine Learning\n- **Prompt Engineering** — DeepLearning.AI (2025-09-02) — Skills: Prompt, Prompt Engineering\n- **Deloitte Australia Data Analytics Job Simulation** — Deloitte Australia (2026-06-07) — Skills: Tableau, Data Analytics, Data Visualization, Business Intelligence, Data Interpretation, Dashboard Development, Excel, Forage Simulation"
+  },
+  {
+    "id": "bb_lounge_premium_caf_website",
+    "type": "item",
+    "title": "BB Lounge - Premium Café Website",
+    "content": "- **Short description:** A modern, responsive business website for BB Lounge in Dammam, Saudi Arabia, showcasing premium shisha flavors, café menu, event bookings, customer testimonials, gallery, and online reservation options with WhatsApp integration.\n- **Tech stack:** React, TypeScript, Tailwind CSS, Vite, JavaScript, HTML5, CSS3, Responsive Design, WhatsApp API, Google Maps Embed\n- **Details:** BB Lounge is a premium café and shisha lounge website designed to provide customers with a seamless online experience while highlighting the lounge's modern atmosphere and services. The website features an elegant, mobile-friendly interface with dedicated sections for the gallery, complete food and beverage menu, premium shisha flavors, exclusive deals, customer testimonials, event bookings, business hours, location, and contact information.\n\nThe platform allows visitors to explore the lounge's offerings, reserve tables, and place orders directly through WhatsApp for a quick and convenient booking experience. Social media integration, Google Maps navigation, and an Instagram showcase help strengthen the brand's online presence while providing visitors with easy access to updates and directions.\n- **Links:** live: https://bb-lounge.vercel.app/"
+  },
+  {
+    "id": "crickvision_featured",
+    "type": "item",
+    "title": "CrickVision (Featured)",
+    "content": "- **Short description:** An AI-powered mobile cricket analysis platform that detects the cricket ball, tracks its trajectory, and estimates delivery speed using computer vision, making professional-grade analytics accessible to any player with a smartphone.\n- **Tech stack:** React Native, Expo, JavaScript, FastAPI, Python, YOLOv10n, OpenCV, PyTorch, Supabase, PostgreSQL, Uvicorn, Axios, react-native-svg, expo-camera, expo-av, Google Colab\n- **Details:** CrickVision is a final year design project built to bridge the gap between expensive professional cricket analysis systems like Hawk-Eye and the everyday player. Using a custom-trained YOLOv10n object detection model, the system processes cricket delivery videos to detect the ball frame-by-frame, generate visual trajectory overlays, and calculate real-world ball speed.\nPlayers and coaches can record live deliveries or upload pre-recorded videos directly through the React Native mobile app. The backend, built with FastAPI and served via Uvicorn, handles all AI inference and video processing asynchronously for efficient performance. Results are visualized on-device using SVG overlays, and all analysis history is stored per user through Supabase.\nThe project was developed over 8 Agile Scrum sprints from October 2025 to May 2026, covering dataset collection (~40000 labeled frames), model training on Google Colab, backend development, frontend integration, and testing. CrickVision targets cricket academies, coaching centers, and individual players across South Asia as an affordable alternative to broadcast-grade analytics systems.\n- **Links:** live: https://drive.google.com/drive/folders/18cDmDdQTLaTZuSuNc1PUvxhXQTITIaZE?usp=sharing | backendRepo: https://github.com/UsmanChaudhary115/CrickVision-Backend.git | frontendRepo: https://github.com/Rao-Mubashir/CrickNet_Fyp.git"
+  },
+  {
+    "id": "snapvault_ai_powered_photo_distribution_system_featured",
+    "type": "item",
+    "title": "SnapVault - AI-Powered Photo Distribution System (Featured)",
+    "content": "- **Short description:** Smart photo-sharing app using facial recognition for automatic tagging and secure group sharing\n- **Tech stack:** React Native, FastAPI, Python, Computer Vision, AWS EC2\n- **Details:** Developed a cutting-edge mobile application for private and seamless image distribution using React Native and FastAPI. The system leverages facial recognition to automatically tag and group photos, enabling secure private sharing within groups for seamless collaboration. Backend developed with FastAPI for secure and efficient APIs, data management, and advanced logic including computer vision techniques crucial for ensuring user privacy and optimizing image handling."
+  },
+  {
+    "id": "ai_lawyer_legal_assistant_system",
+    "type": "item",
+    "title": "AI Lawyer - Legal Assistant System",
+    "content": "- **Short description:** AI-powered legal assistant for Pakistan Penal Code and Criminal Procedure Code\n- **Tech stack:** Python, FastAPI, LangChain, Faiss DB, LLMs\n- **Details:** Developed an intelligent legal assistant leveraging LangChain, FastAPI, and Faiss DB. The system provides intelligent assistance for navigating the Pakistan Penal Code (PPC) and Criminal Procedure Code (CrPC), using advanced language models and semantic search capabilities for accurate legal information retrieval.\n- **Links:** live: https://legal-asker.lovable.app/ | backendRepo: https://github.com/UsmanChaudhary115/AiLawyer.git"
+  },
+  {
+    "id": "locationtrack_real_time_location_tracking_featured",
+    "type": "item",
+    "title": "LocationTrack - Real-Time Location Tracking (Featured)",
+    "content": "- **Short description:** Real-time group location tracking application for coordinated travel and monitoring\n- **Tech stack:** React Native, Real-time Database, GPS, Location APIs\n- **Details:** Designed and developed a real-time location tracking application using React Native. Built for coordinated travel and group monitoring scenarios with secure access controls and controlled visibility of location data, ensuring user privacy while enabling seamless group coordination.\n- **Links:** live: https://drive.google.com/file/d/1L-PU6NLqsBsu4tGNf0619t5iXt0n24a3/view?usp=drive_link"
+  },
+  {
+    "id": "docdirect_online_healthcare_platform",
+    "type": "item",
+    "title": "DocDirect - Online Healthcare Platform",
+    "content": "- **Short description:** Healthcare platform with online consultations, appointment bookings, and real-time chat\n- **Tech stack:** Blazor, ASP.NET, C#, Real-time Chat, SQL\n- **Details:** Built a comprehensive healthcare platform using Blazor and ASP.NET enabling online consultations and appointment bookings. Features include doctor authentication, detailed profiles, advanced search/filter capabilities, real-time chat functionality, and intelligent scheduling system for seamless patient-doctor interactions.\n- **Links:** frontendRepo: https://github.com/UsmanChaudhary115"
+  },
+  {
+    "id": "truecast_online_election_management_system",
+    "type": "item",
+    "title": "TrueCast - Online Election Management System",
+    "content": "- **Short description:** Secure election management platform with voter authentication and real-time results\n- **Tech stack:** ADO.NET, C#, SQL, HTML, CSS, JavaScript\n- **Details:** Developed a secure election management platform using ADO.NET and C#. The system features candidate registration, robust voter authentication, comprehensive election management tools, and real-time result computation with data integrity and security as paramount concerns.\n- **Links:** live: https://truecast.runasp.net/ | frontendRepo: https://github.com/UsmanChaudhary115/TrueCast_CleanArchitecture.git"
+  },
+  {
+    "id": "social_media_counter_shopify_app",
+    "type": "item",
+    "title": "Social Media Counter - Shopify App",
+    "content": "- **Short description:** Custom Shopify app displaying dynamic social media metrics integration\n- **Tech stack:** Shopify, META API, Pinterest API, YouTube API, JavaScript, Vite, Remix, Typescript\n- **Details:** Developed a custom Shopify app to display dynamic social media metrics. Integrated META APIs, Pinterest API, and YouTube API with sophisticated app-level logic. Focused on lightweight performance and seamless store integration for minimal impact on store loading times."
+  },
+  {
+    "id": "valure_corporate_website_featured",
+    "type": "item",
+    "title": "Valure - Corporate Website (Featured)",
+    "content": "- **Short description:** Professional business website with clean UI and responsive design\n- **Tech stack:** Shopify, Responsive Design, payment gateway\n- **Details:** Developed and delivered a professional business website related to the business of luxuries with focus on clean UI design and responsive layouts. Implemented performance optimization techniques and ensured production stability for reliable deployment.\n- **Links:** live: https://valure.pk/"
+  },
+  {
+    "id": "skweela_educational_platform_website",
+    "type": "item",
+    "title": "Skweela - Educational Platform Website",
+    "content": "- **Short description:** Complete production website for educational platform with focus on performance\n- **Tech stack:** React, Node.js, PostgreSQL, Tailwind CSS\n- **Details:** Designed and developed a complete production website for an educational platform. Handled deployment and live environment setup with emphasis on usability, performance optimization, and long-term maintainability.\n- **Links:** live: https://skweela.com/"
+  }
+]
