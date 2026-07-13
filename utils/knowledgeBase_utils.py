@@ -22,30 +22,7 @@ CHUNKS_PATH = Path(__file__).parent.parent / "chunks.json"
 with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
     chunks: list[dict] = json.load(f)
 
-# Optional FAISS + LangChain vector store integration
-try:
-    from langchain.schema import Document
-    from langchain_community.vectorstores import FAISS
-    from langchain_community.embeddings import HuggingFaceEmbeddings
 
-    _faiss_docs = [
-        Document(
-            page_content=c.get("content", ""),
-            metadata={
-                "id": c.get("id", ""),
-                "title": c.get("title", ""),
-                "category": c.get("category", ""),
-            },
-        )
-        for c in chunks
-        if c.get("content")
-    ]
-    _embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    _faiss_db = FAISS.from_documents(_faiss_docs, _embeddings)
-    HAS_FAISS = True
-except Exception:
-    HAS_FAISS = False
-    _faiss_db = None
 
 
 def _tokenize(text: str, expand_aliases: bool = False) -> list[str]:
@@ -290,42 +267,35 @@ def get_relevant_knowledge(
             formatted_sections.append(f"### {title}\n{content}")
         return "\n\n".join(formatted_sections)
 
-    # 2. Retrieval via FAISS (if available) or Semantic Scorer
-    if HAS_FAISS and _faiss_db:
-        results_with_scores = _faiss_db.similarity_search_with_score(search_query, k=k * 2)
-        # FAISS L2 distance: lower score means higher similarity.
-        valid_matches = [doc for doc, score in results_with_scores if score < 1.6][:k]
-        selected_ids = {doc.metadata.get("id") for doc in valid_matches}
-        selected_chunks = [c for c in chunks if c.get("id") in selected_ids]
+    # 2. Retrieval via keyword scorer
+    query_tokens = set(_tokenize(search_query, expand_aliases=True))
+    query_experience_intent = bool(query_tokens.intersection({"experience", "intern", "internship", "job", "jobs", "work", "worked", "role", "roles", "employment"}))
+    query_project_intent = bool(query_tokens.intersection({"project", "projects", "built", "developed", "website", "app", "platform", "system"}))
+
+    scored_chunks = [
+        (c, _compute_chunk_relevance_score(query_tokens, search_query, c))
+        for c in chunks
+    ]
+    # Sort by score descending and filter by threshold
+    scored_chunks.sort(key=lambda x: x[1], reverse=True)
+
+    # For pure experience queries: prioritize experience chunks, allow some project context
+    if query_experience_intent and not query_project_intent:
+        experience_chunks = [c for c, score in scored_chunks if score >= min_score_threshold and _is_experience_chunk(c)]
+        other_chunks = [c for c, score in scored_chunks if score >= min_score_threshold and not _is_experience_chunk(c)]
+        # Take up to k experience chunks, fill remaining with other high-scoring chunks
+        relevant = experience_chunks[:k]
+        if len(relevant) < k:
+            relevant.extend(other_chunks[: max(0, k - len(relevant))])
     else:
-        query_tokens = set(_tokenize(search_query, expand_aliases=True))
-        query_experience_intent = bool(query_tokens.intersection({"experience", "intern", "internship", "job", "jobs", "work", "worked", "role", "roles", "employment"}))
-        query_project_intent = bool(query_tokens.intersection({"project", "projects", "built", "developed", "website", "app", "platform", "system"}))
+        relevant = [c for c, score in scored_chunks if score >= min_score_threshold][:k]
 
-        scored_chunks = [
-            (c, _compute_chunk_relevance_score(query_tokens, search_query, c))
-            for c in chunks
-        ]
-        # Sort by score descending and filter by threshold
-        scored_chunks.sort(key=lambda x: x[1], reverse=True)
+    # If both project and experience intent, also add relevant project chunks
+    if query_experience_intent and query_project_intent and len(relevant) < k:
+        project_support = [c for c, score in scored_chunks if score >= min_score_threshold and _is_project_chunk(c) and c not in relevant]
+        relevant.extend(project_support[: max(0, k - len(relevant))])
 
-        # For pure experience queries: prioritize experience chunks, allow some project context
-        if query_experience_intent and not query_project_intent:
-            experience_chunks = [c for c, score in scored_chunks if score >= min_score_threshold and _is_experience_chunk(c)]
-            other_chunks = [c for c, score in scored_chunks if score >= min_score_threshold and not _is_experience_chunk(c)]
-            # Take up to k experience chunks, fill remaining with other high-scoring chunks
-            relevant = experience_chunks[:k]
-            if len(relevant) < k:
-                relevant.extend(other_chunks[: max(0, k - len(relevant))])
-        else:
-            relevant = [c for c, score in scored_chunks if score >= min_score_threshold][:k]
-
-        # If both project and experience intent, also add relevant project chunks
-        if query_experience_intent and query_project_intent and len(relevant) < k:
-            project_support = [c for c, score in scored_chunks if score >= min_score_threshold and _is_project_chunk(c) and c not in relevant]
-            relevant.extend(project_support[: max(0, k - len(relevant))])
-
-        selected_chunks = relevant
+    selected_chunks = relevant
 
     # 3. Safety Fallback: If no chunk crossed the threshold, return profile overview
     if not selected_chunks:
